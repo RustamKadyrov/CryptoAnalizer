@@ -1,14 +1,14 @@
 package ru.javarush.kadyrov.cryptoanalizer;
-import ru.javarush.kadyrov.cryptoanalizer.commands.Analizer;
+import ru.javarush.kadyrov.cryptoanalizer.commands.CryptoAnalizer;
 import ru.javarush.kadyrov.cryptoanalizer.commands.BrutForce;
 import ru.javarush.kadyrov.cryptoanalizer.commands.Encoder;
 import ru.javarush.kadyrov.cryptoanalizer.commands.Decoder;
-import ru.javarush.kadyrov.cryptoanalizer.constant.Constants;
+import ru.javarush.kadyrov.cryptoanalizer.constants.Constants;
 
 
 import java.util.Scanner;
 
-public class   Application {
+public class Application {
     public static void run(){
         printAppWelcome();
         executeOperation(getCommand());
@@ -21,20 +21,19 @@ public class   Application {
     }
 
     public static int getCommand() {
-        Scanner scanner = new Scanner(System.in);
-        boolean isExit = false;
-        int command = 0;
-        while (!isExit) {
-            System.out.print("Введите номер операции: ");
+        int command;
+        while (true) {
+            Scanner scanner = new Scanner((System.in));
+            System.out.print("Введите номер операции (целое число 1 - 4 либо 0 для выхода):");
             if (scanner.hasNextInt()) {
                 command = scanner.nextInt();
                 if (command < 0 || command > 4)
-                    System.out.println("Операции с номером " + command + " не существует!\n" + Constants.COMMAND_OPTIONS);
+                    System.out.println("Операции с номером " + command + " не существует. Повторите ввод.\n"
+                            + Constants.COMMAND_OPTIONS);
                 else
-                    isExit = true;
+                    break;
             } else {
-                System.out.println("Некорректный ввод! Введите целое число!");
-                scanner.next();
+                System.out.println("\nНекорректный ввод данных.\n" + Constants.COMMAND_OPTIONS);
             }
         }
         return command;
@@ -45,7 +44,7 @@ public class   Application {
             case 1 -> Encoder.start();
             case 2 -> Decoder.start();
             case 3 -> BrutForce.start();
-            case 4 -> Analizer.start();
+            case 4 -> CryptoAnalizer.start();
             case 0 -> doNothing();
         }
     }
